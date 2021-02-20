@@ -8,6 +8,8 @@ var UserSchema = new Schema({
   username: {type: String},
   password: {type: String},
   status: {type: String},
+  friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  friend_requests: [{ type: Schema.Types.ObjectId, ref: "User" }]
 });
 
 UserSchema.virtual("url").get(function () {
