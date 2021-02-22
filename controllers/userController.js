@@ -29,7 +29,7 @@ exports.user_login_post = (req, res, next) => {
       // generate a signed json web token with contents of user object and return in res
       const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1d" });
       res.cookie("token", token, { httpOnly: true, secure: false, maxAge: 3600000 });
-      res.redirect("/");
+      res.redirect("/posts");
       res.send();
     });
   })(req, res, next);
@@ -77,6 +77,9 @@ exports.user_signup_post = [
         username: req.body.username,
         password: hashedPassword,
         status: "user",
+        friends: [],
+        friend_requests: [],
+        picture: "",
       });
       if (!errors.isEmpty()) {
         console.log("errors: ", errors.array());
@@ -97,6 +100,10 @@ exports.user_signup_post = [
     });
   },
 ];
+
+exports.user_detail_get = (req, res, next) => {
+  res.send("NOT IMPLEMENTED: User detail GET");
+};
 
 exports.user_update_get = (req, res, next) => {
   res.send("NOT IMPLEMENTED: User update GET");

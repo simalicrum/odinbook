@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div.h-screen.w-screen.bg-green-500.flex.items-center.justify-center.flex-col
+  div.h-screen.w-screen.bg-yellow-500.flex.items-center.justify-center.flex-col
     form.container.bg-white.mx-auto.p-6.grid.grid-cols-1.gap-3.self-center(class="sm:max-w-lg sm:shadow-lg sm:rounded-lg" method="POST" action="")
       h2.text-gray-900.font-semibold #{title}
       input(type='hidden',name='postid', required='true', value=postId )
@@ -9,5 +9,5 @@ block content
       a.flex.items-center.justify-center(class="text-gray-400 border-2 border-gray-400 py-2.5 px-8 rounded-md" href="/posts/" + postId) Go back
     div.m-4
       a.text-white.text-sm(href="/") Home 
-      span.text-green-400.text-sm.m-1 · 
+      span.text-yellow-400.text-sm.m-1 · 
       a.text-white.text-sm(href="/logout") Logout

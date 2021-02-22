@@ -29,6 +29,7 @@ exports.comment_create_post = [
       author: req.user._id,
       timestamp: new Date(),
       content: req.body.comment,
+      likes: [],
       errors: errors,
     });
     if (!errors.isEmpty()) {

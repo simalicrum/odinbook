@@ -1,5 +1,9 @@
 const async = require("async");
 const { body, validationResult } = require("express-validator");
+var mongoose = require("mongoose");
+
+var Schema = mongoose.Schema;
+
 
 const Post = require("../models/post");
 const User = require("../models/user");
@@ -22,7 +26,9 @@ exports.post_detail =  (req, res, next) => {
 };
 
 exports.post_list = (req, res, next) => {
-  Post.find()
+  var myselfAndFriends = req.user.friends;
+  myselfAndFriends.push(req.user._id);
+  Post.find({"author":  { $in: myselfAndFriends}})
     .populate("comments")
     .populate("author")
     .sort("-timestamp")
@@ -54,6 +60,7 @@ exports.post_create_post = [
       author: req.user._id,
       timestamp: new Date(),
       content: req.body.post,
+      likes: [],
       errors: errors,
     });
     if (!errors.isEmpty()) {
@@ -102,6 +109,7 @@ exports.post_update_post = [
       author: req.user._id,
       timestamp: new Date(),
       content: req.body.post,
+      likes: [],
       errors: errors,
     });
     if (!errors.isEmpty()) {
@@ -117,6 +125,7 @@ exports.post_update_post = [
         author: req.user._id,
         timestamp: new Date(),
         content: req.body.post,
+        likes: [],
       } ,function (err) {
         if (err) {
           return next(err);
