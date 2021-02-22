@@ -1,11 +1,18 @@
 mixin comment(commentarg, postarg)
-  div.space-y-2.p-8
-    p.text-sm.text-gray-500 #{commentarg.content}
-    p.text-sm.text-gray-800 #{commentarg.author.first_name} #{commentarg.author.last_name} 
-      span.text-gray-500 • #{commentarg.timestamp_formatted}
+  div.flex.items-center
+    a(href="/users/" + commentarg.author._id)
+      div.h-8.w-8.bg-yellow-400.rounded
+    div.ml-2
+      a(href="/users/" + commentarg.author._id).text-sm.text-gray-800.font-semibold #{commentarg.author.first_name} #{commentarg.author.last_name}
+      p.span.text-gray-500.text-xs #{commentarg.timestamp_formatted}
+  p.text-sm.text-gray-500 #{commentarg.content}
+  p
+    svg( height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor").inline.text-gray-500
+      path( d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z")
+    span.text-gray-500.text-sm  • 
     if user
       if commentarg.author._id.toString() === user._id.toString()
-        p.text-gray-500.text-sm
+        span.text-gray-500.text-sm
           a(href="/posts/" + postarg._id + "/comments/" + commentarg._id + "/edit") Edit
           span   • 
           a.text-red-700(href="/posts/" + postarg._id + "/comments/" + commentarg._id + "/delete") DELETE

@@ -31,11 +31,18 @@ exports.post_list = (req, res, next) => {
   Post.find({"author":  { $in: myselfAndFriends}})
     .populate("comments")
     .populate("author")
+    .populate({path: "comments",
+      populate: {
+        path: "author"
+      }
+    })
     .sort("-timestamp")
     .exec( (err, post_list) => {
       if (err) {
         return next(err);
       }
+      console.log("post_list:", post_list);
+      console.log("post_list[0].comments:", post_list[0].comments);
       res.render("post_list", { post_list: post_list, user: req.user });
     });
 };

@@ -1,8 +1,11 @@
 mixin post(postarg, postlist)
   div.space-y-5.p-8
-    div
-      p.text-md.text-gray-800.font-semibold #{postarg.author.first_name} #{postarg.author.last_name}
-      p.span.text-gray-500.text-sm #{postarg.timestamp_formatted}
+    div.flex.items-center
+      a(href="/users/" + postarg.author._id)
+        div.h-12.w-12.bg-yellow-400.rounded
+      div.ml-2
+        a(href="/users/" + postarg.author._id).text-md.text-gray-800.font-semibold #{postarg.author.first_name} #{postarg.author.last_name}
+        p.span.text-gray-500.text-sm #{postarg.timestamp_formatted}
     p.text-md.text-gray-500 #{postarg.content}
     p.text-sm
       if postlist
@@ -13,3 +16,26 @@ mixin post(postarg, postlist)
       span.text-gray-500  • 
       svg( height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor").inline.text-gray-500
         path( d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z")
+    div.space-y-3.px-8
+      if postarg.comments.length > 0
+        ul
+          if postarg.comments
+            each comment in postarg.comments
+              li.space-y-2
+                div.flex.items-center
+                  a(href="/users/" + comment.author._id)
+                    div.h-8.w-8.bg-yellow-400.rounded
+                  div.ml-2
+                    a(href="/users/" + comment.author._id).text-sm.text-gray-800.font-semibold #{comment.author.first_name} #{comment.author.last_name}
+                    p.span.text-gray-500.text-xs #{comment.timestamp_formatted}
+                p.text-sm.text-gray-500 #{comment.content}
+                p
+                  svg( height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor").inline.text-gray-500
+                    path( d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z")
+                  span.text-gray-500.text-sm  • 
+                  if user
+                    if comment.author._id.toString() === user._id.toString()
+                      span.text-gray-500.text-sm
+                        a(href="/posts/" + postarg._id + "/comments/" + comment._id + "/edit") Edit
+                        span   • 
+                        a.text-red-700(href="/posts/" + postarg._id + "/comments/" + comment._id + "/delete") DELETE
