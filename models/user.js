@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+const { DateTime } = require("luxon");
 
 var Schema = mongoose.Schema;
 
@@ -10,11 +11,17 @@ var UserSchema = new Schema({
   status: {type: String},
   friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   friend_requests: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  picture: "",
+  picture: {type: String},
+  location: {type: String},
+  birthday: {type: Date},
 });
 
 UserSchema.virtual("url").get(function () {
   return "/user/" + this._id;
+});
+
+UserSchema.virtual("birthday_formatted").get(function () {
+  return this.birthday ? DateTime.fromJSDate(this.birthday).toLocaleString(DateTime.DATETIME_MED) : ""
 });
 
 module.exports = mongoose.model("User", UserSchema);

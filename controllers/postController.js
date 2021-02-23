@@ -28,7 +28,7 @@ exports.post_detail =  (req, res, next) => {
 exports.post_list = (req, res, next) => {
   var myselfAndFriends = req.user.friends;
   myselfAndFriends.push(req.user._id);
-  Post.find({"author":  { $in: myselfAndFriends}})
+  Post.find({"target":  { $in: myselfAndFriends}})
     .populate("comments")
     .populate("author")
     .populate({path: "comments",
@@ -54,7 +54,6 @@ exports.post_create_get =  (req, res, next) => {
 };
 
 exports.post_create_post = [
-  body("title", "Title cannot be blank").trim().isLength({ min: 1 }).escape(),
   body("post", "Blog post cannot be blank")
     .trim()
     .isLength({ min: 1 })
@@ -62,14 +61,21 @@ exports.post_create_post = [
   (req, res, next) => {
     const errors = validationResult(req);
     console.log("errors: ", errors);
+    if (req.params.userID !== undefined) {
+      var target = req.params.userID;
+    } else {
+      var target = req.user._id;
+    }
     const post = new Post({
       title: req.body.title,
       author: req.user._id,
       timestamp: new Date(),
       content: req.body.post,
       likes: [],
+      target: target,
       errors: errors,
     });
+    console.log("post: ", post);
     if (!errors.isEmpty()) {
       res.render("post_form", {
         post: post,

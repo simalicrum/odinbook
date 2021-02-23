@@ -10,6 +10,7 @@ var PostSchema = new Schema({
   content: { type: String },
   likes: [{ type: Schema.Types.ObjectId, ref: "User"}],
   comments: [{type: Schema.Types.ObjectId, ref: "Comment"}],
+  target: { type: Schema.Types.ObjectId, ref: "User"},
 });
 
 PostSchema.virtual("timestamp_formatted").get(function () {

@@ -18,9 +18,7 @@ const jwtGetUser = (req, res, next) => {
 
 router.get('/', passport.authenticate('jwt', {session: false}), post_controller.post_list);
 
-router.get("/new", passport.authenticate('jwt', {session: false}), post_controller.post_create_get);
-
-router.post("/new", passport.authenticate('jwt', {session: false}), post_controller.post_create_post);
+router.post("/", passport.authenticate('jwt', {session: false}), post_controller.post_create_post);
 
 router.get("/:postId", passport.authenticate('jwt', {session: false}), post_controller.post_detail);
 
