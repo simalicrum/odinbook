@@ -1,0 +1,19 @@
+mixin posts(post_list)
+  div.container.max-w-screen-md.mx-auto
+    form.p-6.grid.grid-cols-1.gap-3(method="POST" action="")
+      label.block
+        textarea(name="post" class="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0" rows="3" style="margin-top: 4px; margin-bottom: 0px; height: 85px;" placeholder="What's on your mind?")
+      button.bg-yellow-400.text-white.rounded-md.mt-1(type="submit" class="py-2.5") Submit
+      if errors
+        ul
+          each error in errors
+            li.text-red-700.text-sm.flex.items-center
+              svg.inline(xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20" fill="currentColor")
+                path(fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd")
+              span.ml-2 #{error.msg}
+    div
+      ul
+        if post_list
+          each post in post_list
+            li
+              +post(post, true)

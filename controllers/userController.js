@@ -4,8 +4,9 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const express = require('express');
-
+const mongoose = require("mongoose");
 const User = require("../models/user");
+const Post = require("../models/post")
 const { deleteOne } = require("../models/user");
 
 exports.user_login_get = (req, res, next) => {
@@ -102,7 +103,33 @@ exports.user_signup_post = [
 ];
 
 exports.user_detail_get = (req, res, next) => {
-  res.send("NOT IMPLEMENTED: User detail GET");
+  async.parallel( 
+    {
+      user: cb => {
+        User.findById(req.user._id)
+          .populate("friends")
+          .populate("friend_requests")
+          .exec(cb)
+      },
+      post_list: cb => {
+        Post.find({author: req.user._id})
+        .populate("comments")
+        .populate("author")
+        .populate({path: "comments",
+          populate: {
+            path: "author"
+          }
+        })
+        .exec(cb)
+      }
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+      res.render("user_detail", { user: results.user, post_list: results.post_list });
+    }
+  )
 };
 
 exports.user_update_get = (req, res, next) => {

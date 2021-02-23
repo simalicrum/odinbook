@@ -1,0 +1,11 @@
+extends layout
+
+include ./header.pug
+include ./post.pug
+include ./posts.pug
+
+block content
+  +header
+  div.container.max-w-screen-md.mx-auto.pt-32.flex.justify-center
+    h1.text-3xl.font-semibold.text-gray-800 #{user.first_name} #{user.last_name}
+  +posts(post_list)
