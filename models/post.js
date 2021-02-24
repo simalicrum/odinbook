@@ -4,7 +4,6 @@ const { DateTime } = require("luxon");
 var Schema = mongoose.Schema;
 
 var PostSchema = new Schema({
-  title: { type: String },
   author: { type: Schema.Types.ObjectId, ref: "User"},
   timestamp: { type: Date },
   content: { type: String },

@@ -1,0 +1,10 @@
+extends layout
+
+include ./header.pug
+include ./user.pug
+include ./users.pug
+
+block content
+  +header
+  div.pt-24
+    +users(user_list)

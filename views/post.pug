@@ -6,6 +6,11 @@ mixin post(postarg, postlist)
           div(style="background-image: url('/images/" + user.picture + "');").h-12.w-12.bg-yellow-400.rounded.bg-cover
         div.ml-2
           a(href="/users/" + postarg.author._id).text-md.text-gray-800.font-semibold #{postarg.author.first_name} #{postarg.author.last_name}
+          if postarg.author._id.toString() !== postarg.target._id.toString()
+            span
+              svg(height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor").inline.text-gray-500
+                path(fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd")
+            a(href="/users/" + postarg.target._id).text-md.text-gray-800.font-semibold #{postarg.target.first_name} #{postarg.target.last_name}
           p.span.text-gray-500.text-sm #{postarg.timestamp_formatted}
       a(href="#").text-gray-500
         svg(height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor")

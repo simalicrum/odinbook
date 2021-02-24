@@ -41,8 +41,6 @@ exports.post_list = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      console.log("post_list:", post_list);
-      console.log("post_list[0].comments:", post_list[0].comments);
       res.render("post_list", { post_list: post_list, user: req.user });
     });
 };
@@ -61,13 +59,14 @@ exports.post_create_post = [
   (req, res, next) => {
     const errors = validationResult(req);
     console.log("errors: ", errors);
-    if (req.params.userID !== undefined) {
-      var target = req.params.userID;
+    console.log("req.params.id: ", req.params.id);
+    console.log("req.user._id: ", req.user._id);
+    if (req.params.id !== undefined) {
+      var target = req.params.id;
     } else {
       var target = req.user._id;
     }
     const post = new Post({
-      title: req.body.title,
       author: req.user._id,
       timestamp: new Date(),
       content: req.body.post,

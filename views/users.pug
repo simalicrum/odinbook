@@ -1,0 +1,7 @@
+mixin users(user_list)
+    div.container.max-w-screen-md.mx-auto
+      ul
+        if user_list
+          each user in user_list
+            li
+              +user(user)
