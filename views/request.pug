@@ -6,5 +6,5 @@ mixin request(requestarg)
       div.ml-4
         a(href="/users/" + requestarg._id).text-md.text-gray-800.font-semibold #{requestarg.first_name} #{requestarg.last_name}
     form(method="POST" action="").flex.items-center
-      input(type='hidden',name='postid', required='true', value="null" )
+      input(type='hidden',name='requestid', required='true', value=requestarg._id )
       button.bg-yellow-500.text-white.rounded-md(type="submit" class="py-2.5 sm:px-6").w-64 Accept friend request

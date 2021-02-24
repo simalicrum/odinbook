@@ -1,0 +1,7 @@
+mixin friends(friend_list)
+    div.container.max-w-screen-md.mx-auto
+      ul
+        if friend_list
+          each friend in friend_list
+            li
+              +friend(friend)
