@@ -22,4 +22,12 @@ router.delete("/:id/delete", passport.authenticate('jwt', {session: false}), use
 
 router.get("/:id/friends", passport.authenticate('jwt', {session: false}), user_controller.user_friends_get);
 
+router.get("/:id/friends/add/:addID", passport.authenticate('jwt', {session: false}), user_controller.user_addfriend_get);
+
+router.post("/:id/friends/add/:addID", passport.authenticate('jwt', {session: false}), user_controller.user_addfriend_post);
+
+router.get("/:id/friends/requests/", passport.authenticate('jwt', {session: false}), user_controller.user_requests_get);
+
+router.post("/:id/friends/requests/", passport.authenticate('jwt', {session: false}), user_controller.user_requests_post);
+
 module.exports = router;

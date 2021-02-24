@@ -1,0 +1,10 @@
+mixin request(requestarg)
+  div.flex.justify-between.p-4
+    div.flex.items-center
+      a(href="/users/" + requestarg._id)
+        div(style="background-image: url('/images/" + requestarg.picture + "');").h-20.w-20.bg-yellow-400.rounded.bg-cover
+      div.ml-4
+        a(href="/users/" + requestarg._id).text-md.text-gray-800.font-semibold #{requestarg.first_name} #{requestarg.last_name}
+    form(method="POST" action="").flex.items-center
+      input(type='hidden',name='postid', required='true', value="null" )
+      button.bg-yellow-500.text-white.rounded-md(type="submit" class="py-2.5").px-6 Accept friend request

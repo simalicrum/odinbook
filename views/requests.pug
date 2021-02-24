@@ -1,0 +1,7 @@
+mixin requests(request_list)
+    div.container.max-w-screen-md.mx-auto
+      ul
+        if request_list
+          each request in request_list
+            li
+              +request(request)

@@ -1,0 +1,10 @@
+extends layout
+
+include ./header.pug
+include ./request.pug
+include ./requests.pug
+
+block content
+  +header
+  div.pt-24
+    +requests(request_list)
