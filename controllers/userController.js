@@ -49,7 +49,7 @@ exports.user_list = (req, res, next) => {
       }
       console.log("req.user: ", req.user);
       console.log("user_list: ", user_list);
-      res.render("user_list", { user_list: user_list });
+      res.render("user_list", { user_list: user_list, user: req.user });
       }
     )
 }
@@ -169,7 +169,7 @@ exports.user_friends_get = (req, res, next) => {
         return next(err);
       }
       console.log("user_list: ", user_list);
-      res.render("user_list", { user_list: user_list });
+      res.render("friend_list", { user_list: user_list, user: req.user });
       }
     )
 }

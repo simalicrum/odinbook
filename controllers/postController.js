@@ -28,9 +28,10 @@ exports.post_detail =  (req, res, next) => {
 exports.post_list = (req, res, next) => {
   var myselfAndFriends = req.user.friends;
   myselfAndFriends.push(req.user._id);
-  Post.find({"target":  { $in: myselfAndFriends}})
+  Post.find({"author":  { $in: myselfAndFriends}})
     .populate("comments")
     .populate("author")
+    .populate("target")
     .populate({path: "comments",
       populate: {
         path: "author"

@@ -6,7 +6,7 @@ const user_controller = require("../controllers/userController");
 const post_controller = require("../controllers/postController");
 
 /* GET users listing. */
-router.get('/', user_controller.user_list);
+router.get('/', passport.authenticate('jwt', {session: false}), user_controller.user_list);
 
 router.get("/:id", passport.authenticate('jwt', {session: false}), user_controller.user_detail_get);
 
