@@ -46,7 +46,6 @@ passport.use(
       jwtFromRequest: cookieExtractor,
     }, (payload, done) => {
     User.findOne({username: payload.username}, (err, user) => {
-      console.log("jwt did something: ", user);
       if (err) {
           return done(err, false);
       }
