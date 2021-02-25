@@ -158,3 +158,41 @@ exports.post_delete = (req, res, next) => {
     res.redirect("/posts");
   });
 };
+exports.post_like_get = (req, res, next) => {
+  Post.findById(req.params.postId)
+    .exec((err, post) => {
+      if (err) {
+        return next(err);
+      }
+//      res.sendStatus(post.likes.length);
+      console.log("post_like_get worked: ", post.likes.length);
+      res.send({likes: post.likes.length});
+    })
+}
+
+exports.post_like_post = (req, res, next) => {
+  console.log(req.params.postId, "was clicked");
+  Post.findById(req.params.postId)
+    .exec((err, post) => {
+      if (err) {
+        return next(err);
+      }
+      console.log("post.likes: ", post.likes);
+      var likeInLikes = post.likes.includes(req.user._id);
+      if (likeInLikes) {
+        Post.findByIdAndUpdate(req.params.postId, {$pull: {likes: req.user._id}})
+          .exec(err => {
+            if (err) {
+              return next(err);
+            }});
+        console.log("Post updated to unliked");
+      } else {
+        Post.findByIdAndUpdate(req.params.postId, {$addToSet: {likes: req.user._id}})
+        .exec(err => {
+          if (err) {
+            return next(err);
+          }});;
+        console.log("Post updated to liked");
+      }
+    })
+}
