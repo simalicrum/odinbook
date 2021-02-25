@@ -42,7 +42,7 @@ exports.user_logout_get = (req, res) => {
 };
 
 exports.user_list = (req, res, next) => {
-  User.find()
+  User.find({$or: [{_id: { $ne: req.user._id }}]})
     .exec((err, user_list) => {
       if (err) {
         return next(err);

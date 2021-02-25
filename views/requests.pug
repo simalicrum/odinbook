@@ -1,7 +1,12 @@
 mixin requests(request_list)
     div.container.max-w-screen-md.mx-auto
-      ul
-        if request_list
+      if request_list.length > 0
+        ul
           each request in request_list
             li
               +request(request)
+      else
+        div.flex.align-center.flex-col.px-6.text-center
+          p.text-gray-500.font-semibold.text-xl You don't have any friend requests
+          a(href="/users/" + user._id class="sm:w-48").text-center.block.mt-4.self-center.w-full
+            div(class="py-2.5").text-gray-400.border-2.border-gray-400.rounded-md Go back
