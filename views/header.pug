@@ -4,11 +4,19 @@ mixin header
       a.flex.items-center(href="/posts")
         img(src="/images/odin-logo.svg")
         span.text-xl.text-gray-800.font-bold.ml-1.tracking-tight odinbook
-      div.text-md.font-semibold.text-gray-500.flex.items-center
-        a(href="/users/" + user._id)
+      button(onclick="handleUserMenuClick('" + user._id + "-menu' )" ).text-md.font-semibold.text-gray-500.flex.items-center.relative.block
+        div.flex.items-center
+          div(class="sm:block").mr-2.hidden #{user.first_name} #{user.last_name}
           div(style="background-image: url('/images/" + user.picture + "');").h-12.w-12.bg-yellow-400.rounded.bg-cover
-        a(class="sm:inline" href="/users/" + user._id).ml-2.hidden #{user.username}
-        a.ml-4(href="/logout").hidden
-          svg(height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor")
-            path(fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd")
-
+        div(id=user._id + "-menu" class="sm:w-40 sm:right-0 sm:rounded" ).absolute.shadow-lg.p-4.-right-8.top-14.w-screen.bg-white.hidden
+          ul
+            li.flex.items-center
+              a(href="/users/" + user._id)
+                svg(height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor").inline
+                  path(fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd")
+                span.ml-2 User Profile
+            li.flex.items-center.mt-4
+              a(href="/logout")
+                svg(height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor").inline
+                  path(fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd")
+                span.ml-2 Logout

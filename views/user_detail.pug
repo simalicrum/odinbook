@@ -9,7 +9,11 @@ block content
   div(class="sm:flex-row sm:items-start").container.max-w-screen-md.mx-auto.p-6.pt-32.flex.flex-col.space-y-5
     div(class="sm:w-48 sm:h-48 sm:rounded" style="background-image: url('/images/" + user_info.picture + "');").h-64.w-screen.bg-yellow-400.bg-cover.self-center
     div(class="sm:ml-4")
-      h1.text-3xl.font-semibold.text-gray-800 #{user_info.first_name} #{user_info.last_name}
+      div.flex.items-center
+        h1.text-3xl.font-semibold.text-gray-800 #{user_info.first_name} #{user_info.last_name}
+        a(href="/users/" + user._id + "/edit").ml-2
+          svg(height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor").text-gray-500
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z")
       div.flex.flex-col
         p.text-gray-500.flex.items-center
           svg(height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor").inline

@@ -48,12 +48,12 @@ exports.post_list = (req, res, next) => {
 
 exports.post_create_get =  (req, res, next) => {
   if (req.user !== undefined) {
-    res.render("post_form", { title: "Add a blog post", post: {title: "", content: ""} });
+    res.render("post_form", { title: "Add a post", post: {title: "", content: ""} });
   }
 };
 
 exports.post_create_post = [
-  body("post", "Blog post cannot be blank")
+  body("post", "Post cannot be blank")
     .trim()
     .isLength({ min: 1 })
     .escape(),
@@ -147,7 +147,7 @@ exports.post_update_post = [
 ];
 
 exports.post_delete_get = (req, res, next) => {
-  res.render("post_delete", {title: "This will permanently remove this blog post. Are you sure?", postId: req.params.postId });
+  res.render("post_delete", {title: "This will permanently remove this post. Are you sure?", postId: req.params.postId });
 };
 
 exports.post_delete = (req, res, next) => {
