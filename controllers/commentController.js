@@ -109,3 +109,28 @@ exports.comment_delete = (req, res, next) => {
     res.redirect("/posts/" + req.params.postId);
   });
 };
+
+exports.comment_like_post = (req, res, next) => {
+  Comment.findById(req.params.commentId)
+    .exec((err, comment) => {
+      if (err) {
+        return next(err);
+      }
+      var likeInLikes = comment.likes.includes(req.user._id);
+      if (likeInLikes) {
+        Comment.findByIdAndUpdate(req.params.commentId, {$pull: {likes: req.user._id}})
+          .exec(err => {
+            if (err) {
+              return next(err);
+            }});
+        res.send({likes: comment.likes.length - 1});
+      } else {
+        Comment.findByIdAndUpdate(req.params.commentId, {$addToSet: {likes: req.user._id}})
+        .exec(err => {
+          if (err) {
+            return next(err);
+          }});;
+        res.send({likes: comment.likes.length + 1});
+      }
+    })
+}
