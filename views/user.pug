@@ -5,7 +5,7 @@ mixin user(userarg)
         div(style="background-image: url('/images/" + userarg.picture + "');").h-20.w-20.bg-yellow-400.rounded.bg-cover
       div.ml-4
         a(href="/users/" + userarg._id).text-md.text-gray-800.font-semibold #{userarg.first_name} #{userarg.last_name}
-    if !user.friends.includes(userarg._id)
+    if !user.friends.includes(userarg._id) || !user.friend_requests.includes(userarg._id)
       a(href="/users/" + user._id + "/friends/add/" + userarg._id).text-gray-500.flex.items-center
         svg(width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor")
           path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z")

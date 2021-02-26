@@ -15,3 +15,7 @@ const handleLikeClick = async (postLikeId) => {
     return e;
   }
 }
+
+const handleMenuClick = (menuId) => {
+  document.getElementById(menuId).classList.toggle("hidden");
+}
