@@ -36,16 +36,14 @@ mixin post(postarg, postlist)
         span(id=postarg._id + "-number").text-sm.text-gray-500.ml-1 #{postarg.likes.length}
       if postlist
         if postarg.comments.length === 0
-          a.text-gray-500.text-sm(href="/posts/" + postarg._id + "#comments") No comments
+          a.text-gray-500.text-sm(href="/posts/" + postarg._id + "/comments/new") No comments
         else
-          a.text-gray-500.text-sm(href="/posts/" + postarg._id + "#comments") #{postarg.comments.length} comments
+          a.text-gray-500.text-sm(href="/posts/" + postarg._id + "/comments/new") #{postarg.comments.length} comments
     div.space-y-3.px-8
       if postarg.comments.length > 0
         ul
           if postarg.comments
             each comment in postarg.comments
-              - console.log("comment: ", comment);
-              - console.log("comment.likes: ", comment.likes);
               li.space-y-2
                 div.flex.items-center.justify-between
                   div.flex.items-center

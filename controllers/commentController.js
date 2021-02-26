@@ -14,7 +14,7 @@ exports.comment_list =  (req, res, next) => {
 };
 
 exports.comment_create_get = (req, res, next) => {
-  res.render("comment_form", { title: "Leave a comment", comment: { content: ""} });
+  res.render("comment_form", { title: "Leave a comment", comment: { content: ""}, return_address: req.headers.referer });
 };
 
 exports.comment_create_post = [
@@ -45,7 +45,7 @@ exports.comment_create_post = [
           return next(err);
         }
         Post.findByIdAndUpdate(req.params.postId, { $addToSet: {comments: [comment._id]}}).exec();
-        res.redirect("/posts/" + req.params.postId);
+        res.redirect(req.body.return_address);
       });
     }
   },
@@ -57,7 +57,7 @@ exports.comment_update_get = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.render("comment_form", {comment: comment, title: "Edit your comment", postId: req.params.postId});
+    res.render("comment_form", {comment: comment, title: "Edit your comment", postId: req.params.postId, return_address: req.headers.referer});
   });
 };
 
@@ -91,14 +91,14 @@ exports.comment_update_post = [
         if (err) {
           return next(err);
         }
-        res.redirect("/posts/" + req.params.postId + "#comments");
+        res.redirect(req.body.return_address);
       });
     }
   },
 ];
 
 exports.comment_delete_get = (req, res, next) => {
-  res.render("comment_delete", {title: "This will permanently remove this comment. Are you sure?", commentId: req.params.commentId, postID: req.params.postId });
+  res.render("comment_delete", {title: "This will permanently remove this comment. Are you sure?", commentId: req.params.commentId, postID: req.params.postId, return_address: req.headers.referer });
 };
 
 exports.comment_delete = (req, res, next) => {
@@ -106,7 +106,7 @@ exports.comment_delete = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.redirect("/posts/" + req.params.postId);
+    res.redirect(req.body.return_address);
   });
 };
 

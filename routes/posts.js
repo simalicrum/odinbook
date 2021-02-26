@@ -16,7 +16,7 @@ const jwtGetUser = (req, res, next) => {
   })(req, res, next)
 }
 
-router.get('/', passport.authenticate('jwt', {session: false}), post_controller.post_list);
+router.get('/', passport.authenticate('jwt', {session: false, failureRedirect: "/login"}), post_controller.post_list);
 
 router.post("/", passport.authenticate('jwt', {session: false}), post_controller.post_create_post);
 
