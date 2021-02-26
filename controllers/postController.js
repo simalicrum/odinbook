@@ -106,7 +106,6 @@ exports.post_update_get = (req, res, next) => {
 };
 
 exports.post_update_post = [
-  body("title", "Title cannot be blank").trim().isLength({ min: 1 }).escape(),
   body("post", "Blog post cannot be blank")
     .trim()
     .isLength({ min: 1 })
