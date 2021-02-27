@@ -5,6 +5,7 @@ const passportJWT = require("passport-jwt");
 const JwtStrategy = passportJWT.Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;
 const bcrypt = require("bcryptjs");
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 const User = require("./models/user");
 
@@ -57,3 +58,24 @@ passport.use(
   });
   })
 );
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+passport.use(new FacebookStrategy({
+  clientID: process.env.FACEBOOK_APP_ID,
+  clientSecret: process.env.FACEBOOK_APP_SECRET,
+  callbackURL: "http://localhost:3000/auth/facebook/callback",
+  profileFields: ["first_name", "last_name", "picture.type(large)"],
+},
+(accessToken, refreshToken, profile, done) => {
+  console.log("profile: ", profile);
+  console.log("profile._json.picture.data: ", profile._json.picture.data);
+  done(null, profile);
+}
+));

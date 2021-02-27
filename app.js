@@ -5,6 +5,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require('cors');
+const passport = require("passport");
 
 require('./mongoose');
 require('./passport');
@@ -15,8 +16,11 @@ var postsRouter = require('./routes/posts');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
 var signupRouter = require('./routes/signup');
+var authRouter = require('./routes/auth');
 
 var app = express();
+
+app.use(passport.initialize());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,6 +43,7 @@ app.use('/posts', postsRouter);
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/auth', authRouter);
 
 
 // catch 404 and forward to error handler
