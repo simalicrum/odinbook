@@ -53,7 +53,7 @@ exports.user_list = (req, res, next) => {
 }
 
 exports.user_signup_get = (req, res, next) => {
-  res.render("signup_form", { title: "Create an account" });
+  res.render("signup_form", { title: "Create an account", return_address: req.headers.referer });
 };
 
 exports.user_signup_post = [
@@ -97,6 +97,7 @@ exports.user_signup_post = [
           user: user,
           title: "Create an account",
           errors: errors.array(),
+          return_address: req.headers.referer,
         });
         return;
       } else {
@@ -104,7 +105,7 @@ exports.user_signup_post = [
           if (err) {
             return next(err);
           }
-          res.redirect("/");
+          res.redirect(req.headers.referer);
         });
       }
     });
