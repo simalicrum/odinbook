@@ -138,13 +138,19 @@ exports.user_detail_get = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      res.render("user_detail", { user_info: results.user_info, post_list: results.post_list, user: req.user  });
+      res.render("user_detail", { user_info: results.user_info, post_list: results.post_list, user: req.user});
     }
   )
 };
 
 exports.user_update_get = (req, res, next) => {
-  res.send("NOT IMPLEMENTED: User update GET");
+  User.findById(req.user._id)
+    .exec((err, post) => {
+      if (err) {
+        return next(err);
+      }
+      res.render("user_form", {user: req.user, title: "Edit your profile", return_address: req.headers.referer});
+    });
 };
 
 exports.user_update_post = (req, res, next) => {
