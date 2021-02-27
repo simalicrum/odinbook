@@ -74,10 +74,17 @@ exports.user_signup_post = [
     .isLength({ min: 1 })
     .escape(),
   (req, res, next) => {
+    console.log('req.body: ', req.body);
+    console.log('req.file: ', req.file);
     const errors = validationResult(req);
     bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
       if (err) {
         return next(err);
+      }
+      if (!req.file) {
+        var picture = "user-placeholder.svg";
+      } else {
+        var picture = req.file.filename;
       }
       const user = new User({
         first_name: req.body.firstname,
@@ -87,7 +94,7 @@ exports.user_signup_post = [
         status: "user",
         friends: [],
         friend_requests: [],
-        picture: "rob.jpg",
+        picture: picture,
         location: req.body.location,
         birthday: req.body.dob,
       });

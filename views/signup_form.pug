@@ -2,7 +2,7 @@ extends layout
 
 block content
   div.h-screen.w-screen.bg-yellow-500.flex.items-center.justify-center.flex-col
-    form.container.bg-white.mx-auto.p-6.grid.grid-cols-1.gap-3.self-center(class="sm:max-w-lg sm:shadow-lg sm:rounded-lg" method="POST" action="")
+    form.container.bg-white.mx-auto.p-6.grid.grid-cols-1.gap-3.self-center(class="sm:max-w-lg sm:shadow-lg sm:rounded-lg" method="POST" action="" enctype="multipart/form-data")
       h2.text-gray-900.font-semibold Create an account
       label.block
         span.text-gray-700.text-sm First Name
@@ -17,7 +17,7 @@ block content
         span.text-gray-700.text-sm Date of Birth
         input(type="date" name="dob" class="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0")
       label.block
-        div.text-gray-700.text-sm Add a profile picture
+        div.text-gray-700.text-sm Add a profile picture (optional)
         input.mt-1(type="file" accept="image/*" name="photo")
       label.block
         span.text-gray-700.text-sm User name
