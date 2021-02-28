@@ -26,6 +26,7 @@ block content
         span.text-gray-700.text-sm Password
         input(type="password" name="password" class="mt-1 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0")
       button.bg-yellow-400.text-white.rounded-md.mt-1(type="submit" class="py-2.5") Signup
+      input(type='hidden',name='facebookId', required='true', value="" )
       if errors
         ul
           each error in errors

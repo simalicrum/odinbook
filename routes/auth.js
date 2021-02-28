@@ -2,15 +2,12 @@ var express = require('express');
 var router = express.Router();
 const passport = require('passport');
 
-router.get("/facebook", passport.authenticate("facebook"));
+const user_controller = require("../controllers/userController");
+
+router.get("/facebook", passport.authenticate("facebook", {session: false}));
 
 router.get(
-  "/facebook/callback",
-  passport.authenticate("facebook", {
-    successRedirect: "/posts",
-    failureRedirect: "/login",
-    scope: "public_profile",
-  })
+  "/facebook/callback", user_controller.facebook_login
 );
 
 module.exports = router;

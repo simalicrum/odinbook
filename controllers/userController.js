@@ -36,6 +36,21 @@ exports.user_login_post = (req, res, next) => {
   })(req, res, next);
 }
 
+exports.facebook_login = (req, res, next) => {
+  passport.authenticate("facebook", {session: false}, (err, user, info) => {
+    if (err) return next(err);
+    const payload = {
+      username: user.username,
+      status: user.status
+    };
+    // generate a signed json web token with contents of user object and return in res
+    const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1d" });
+    res.cookie("token", token, { httpOnly: true, secure: false, maxAge: 3600000 });
+    res.redirect("/posts");
+    res.send();
+  })(req, res, next);
+}
+
 exports.user_logout_get = (req, res) => {
   res.clearCookie("token");
   res.redirect("/posts");
@@ -97,6 +112,7 @@ exports.user_signup_post = [
         picture: picture,
         location: req.body.location,
         birthday: req.body.dob,
+        facebookId: req.body.facebookId
       });
       if (!errors.isEmpty()) {
         console.log("errors: ", errors.array());

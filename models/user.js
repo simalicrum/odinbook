@@ -14,6 +14,7 @@ var UserSchema = new Schema({
   picture: {type: String},
   location: {type: String},
   birthday: {type: Date},
+  facebookId: {type: String},
 });
 
 UserSchema.virtual("url").get(function () {

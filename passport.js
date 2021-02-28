@@ -6,6 +6,9 @@ const JwtStrategy = passportJWT.Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;
 const bcrypt = require("bcryptjs");
 const FacebookStrategy = require('passport-facebook').Strategy;
+var express = require("express");
+var app = express();
+
 
 const User = require("./models/user");
 
@@ -22,6 +25,7 @@ passport.use(
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) {
           // passwords match! log user in
+          console.log("login worked");
           return done(null, user);
         } else {
           // passwords do not match!
@@ -74,8 +78,31 @@ passport.use(new FacebookStrategy({
   profileFields: ["first_name", "last_name", "picture.type(large)"],
 },
 (accessToken, refreshToken, profile, done) => {
-  console.log("profile: ", profile);
-  console.log("profile._json.picture.data: ", profile._json.picture.data);
-  done(null, profile);
+  User.findOne({facebookId: profile.id}).exec((err, result) => {
+    console.log("result: ", result);
+    if (!result) {
+      var user = new User({
+        first_name: profile.name.givenName,
+        last_name: profile.name.familyName,
+        username: "",
+        password: "",
+        status: "user",
+        friends: [],
+        friend_requests: [],
+        picture: "user-placeholder.svg",
+        facebookId: profile.id
+      });
+      user.save( err => {
+        if (err) {
+          return next(err);
+        }
+        done(null, user);
+      });
+    } else {
+      console.log("found the facebook user");
+      var user = result;
+      done(null, user);
+    }
+  });
 }
 ));
