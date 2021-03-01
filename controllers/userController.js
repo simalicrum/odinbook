@@ -18,8 +18,10 @@ exports.user_login_post = (req, res, next) => {
     if (err) {
       return next(err);
     }
+    console.log("You shouldn't be seeing a message: ", message);
+    console.log("user: ", user);
     if (!user) {
-      return res.status(400).send({ ...message });
+      return res.status(400).render("login_form", message);
     }
     req.login(user, { session: false }, (err) => {
       if (err) return next(err);

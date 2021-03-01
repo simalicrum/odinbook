@@ -3,7 +3,7 @@ mixin post(postarg, postlist)
     div.flex.items-center.justify-between
       div.flex.items-center
         a(href="/users/" + postarg.author._id)
-          div(style="background-image: url('/images/" + postarg.author.picture + "');").h-12.w-12.bg-yellow-400.rounded.bg-cover
+          div(style="background-image: url('/images/profile/" + postarg.author.picture + "');").h-12.w-12.bg-yellow-400.rounded.bg-cover
         div.ml-2
           a(href="/users/" + postarg.author._id).text-md.text-gray-800.font-semibold #{postarg.author.first_name} #{postarg.author.last_name}
           if postarg.author._id.toString() !== postarg.target._id.toString()
@@ -45,7 +45,7 @@ mixin post(postarg, postlist)
                 div.flex.items-center.justify-between
                   div.flex.items-center
                     a(href="/users/" + comment.author._id)
-                      div(style="background-image: url('/images/" + comment.author.picture  + "');").h-8.w-8.bg-yellow-400.rounded.bg-cover
+                      div(style="background-image: url('/images/profile/" + comment.author.picture  + "');").h-8.w-8.bg-yellow-400.rounded.bg-cover
                     div.ml-2
                       a(href="/users/" + comment.author._id).text-sm.text-gray-800.font-semibold #{comment.author.first_name} #{comment.author.last_name}
                       p.span.text-gray-500.text-xs #{comment.timestamp_formatted}

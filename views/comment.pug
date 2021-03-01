@@ -1,7 +1,7 @@
 mixin comment(commentarg, postarg)
   div.flex.items-center
     a(href="/users/" + commentarg.author._id)
-      div(style="background-image: url('/images/" + user.picture + "');").h-8.w-8.bg-yellow-400.rounded.bg-cover
+      div(style="background-image: url('/images/profile/" + user.picture + "');").h-8.w-8.bg-yellow-400.rounded.bg-cover
     div.ml-2
       a(href="/users/" + commentarg.author._id).text-sm.text-gray-800.font-semibold #{commentarg.author.first_name} #{commentarg.author.last_name}
       p.span.text-gray-500.text-xs #{commentarg.timestamp_formatted}

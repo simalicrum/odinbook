@@ -2,7 +2,7 @@ mixin request(requestarg)
   div.flex.p-4.flex-col.items-center.space-y-2(class="sm:flex-row sm:justify-between")
     div.flex.items-center
       a(href="/users/" + requestarg._id)
-        div(style="background-image: url('/images/" + requestarg.picture + "');").h-20.w-20.bg-yellow-400.rounded.bg-cover
+        div(style="background-image: url('/images/profile/" + requestarg.picture + "');").h-20.w-20.bg-yellow-400.rounded.bg-cover
       div.ml-4
         a(href="/users/" + requestarg._id).text-md.text-gray-800.font-semibold #{requestarg.first_name} #{requestarg.last_name}
     form(method="POST" action="").flex.items-center

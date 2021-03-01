@@ -7,7 +7,7 @@ mixin header
       button(onclick="handleUserMenuClick('" + user._id + "-menu' )" ).text-md.font-semibold.text-gray-500.flex.items-center.relative.block
         div.flex.items-center
           div(class="sm:block").mr-2.hidden #{user.first_name} #{user.last_name}
-          div(style="background-image: url('/images/" + user.picture + "');").h-12.w-12.bg-yellow-400.rounded.bg-cover
+          div(style="background-image: url('/images/profile/" + user.picture + "');").h-12.w-12.bg-yellow-400.rounded.bg-cover
         div(id=user._id + "-menu" class="sm:w-40 sm:right-0 sm:rounded" ).absolute.shadow-lg.p-4.-right-8.top-14.w-screen.bg-white.hidden
           ul
             li.flex.items-center

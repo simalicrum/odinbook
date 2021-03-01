@@ -7,7 +7,7 @@ include ./posts.pug
 block content
   +header
   div(class="sm:flex-row sm:items-start").container.max-w-screen-md.mx-auto.p-6.pt-32.flex.flex-col.space-y-5
-    div(class="sm:w-48 sm:h-48 sm:rounded" style="background-image: url('/images/" + user_info.picture + "');").h-64.w-screen.bg-yellow-400.bg-cover.self-center
+    div(class="sm:w-48 sm:h-48 sm:rounded" style="background-image: url('/images/profile/" + user_info.picture + "');").h-64.w-screen.bg-yellow-400.bg-cover.self-center
     div(class="sm:ml-4")
       div.flex.items-center
         h1.text-3xl.font-semibold.text-gray-800 #{user_info.first_name} #{user_info.last_name}
