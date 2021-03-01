@@ -11,15 +11,19 @@ block content
     div(class="sm:ml-4")
       div.flex.items-center
         h1.text-3xl.font-semibold.text-gray-800 #{user_info.first_name} #{user_info.last_name}
-        if user._id.toString() === user_info._id.toString()
+        if user._id.toString() === user_info._id.toString() && user_info.facebookId === null
           a(href="/users/" + user._id + "/edit").ml-2
             svg(height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor").text-gray-500
-              path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z")
+              path(d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z")
+        else
+          svg(xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="lightgray" viewBox="0 0 24 24" stroke="currentColor").text-gray-300.ml-2
+            path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z")
       div.flex.flex-col
-        p.text-gray-500.flex.items-center
-          svg(height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor").inline
-            path(fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd")
-          span.ml-1 #{user_info.location}
+        if user_info.facebookId === null
+          p.text-gray-500.flex.items-center
+            svg(height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor").inline
+              path(fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd")
+            span.ml-1 #{user_info.location}
         p.flex.items-center
           a(href="/users/" + user_info._id + "/friends").text-gray-500.text-gray-500.flex.items-center
             svg(height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor").inline

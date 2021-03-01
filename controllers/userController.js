@@ -27,7 +27,6 @@ exports.user_login_post = (req, res, next) => {
         username: user.username,
         status: user.status
       };
-      // generate a signed json web token with contents of user object and return in res
       const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1d" });
       res.cookie("token", token, { httpOnly: true, secure: false, maxAge: 3600000 });
       res.redirect("/posts");
@@ -43,7 +42,6 @@ exports.facebook_login = (req, res, next) => {
       username: user.username,
       status: user.status
     };
-    // generate a signed json web token with contents of user object and return in res
     const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1d" });
     res.cookie("token", token, { httpOnly: true, secure: false, maxAge: 3600000 });
     res.redirect("/posts");
@@ -89,8 +87,6 @@ exports.user_signup_post = [
     .isLength({ min: 1 })
     .escape(),
   (req, res, next) => {
-    console.log('req.body: ', req.body);
-    console.log('req.file: ', req.file);
     const errors = validationResult(req);
     bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
       if (err) {
@@ -128,7 +124,7 @@ exports.user_signup_post = [
           if (err) {
             return next(err);
           }
-          res.redirect(req.headers.referer);
+          res.redirect("/");
         });
       }
     });
@@ -177,9 +173,63 @@ exports.user_update_get = (req, res, next) => {
     });
 };
 
-exports.user_update_post = (req, res, next) => {
-  res.send("NOT IMPLEMENTED: User update POST");
-};
+exports.user_update_post = [
+  body("firstname", "First name cannot be blank")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("lastname", "Last name cannot be blank")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("username", "Username cannot be blank")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    const user = new User({
+      first_name: req.body.firstname,
+      last_name: req.body.lastname,
+      username: req.body.username,
+      status: "user",
+      friends: [],
+      friend_requests: [],
+      picture: req.user.picture,
+      location: req.body.location,
+      birthday: req.body.dob,
+      facebookId: req.body.facebookId
+    });
+    if (!errors.isEmpty()) {
+      console.log("errors: ", errors.array());
+      res.render("user_form", {
+        user: user,
+        title: "Edit your profile",
+        errors: errors.array(),
+        return_address: req.headers.referer,
+      });
+      return;
+    } else {
+      User.findOneAndUpdate( {_id: req.user._id}, {
+        first_name: req.body.firstname,
+        last_name: req.body.lastname,
+        username: req.body.username,
+        status: "user",
+        friends: [],
+        friend_requests: [],
+        picture: req.user.picture,
+        location: req.body.location,
+        birthday: req.body.dob,
+        facebookId: req.body.facebookId
+      }, err => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect("/users/" + req.user._id);
+      });
+    }
+  },
+];
 
 exports.user_delete_get = (req, res, next) => {
   res.send("NOT IMPLEMENTED: User delete GET");

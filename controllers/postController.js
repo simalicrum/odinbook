@@ -135,7 +135,7 @@ exports.post_update_post = [
         timestamp: new Date(),
         content: req.body.post,
         likes: [],
-      } ,function (err) {
+      } , err => {
         if (err) {
           return next(err);
         }

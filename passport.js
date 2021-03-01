@@ -6,13 +6,12 @@ const JwtStrategy = passportJWT.Strategy;
 const ExtractJwt = passportJWT.ExtractJwt;
 const bcrypt = require("bcryptjs");
 const FacebookStrategy = require('passport-facebook').Strategy;
-var express = require("express");
-var app = express();
+const request = require('request');
+const fs = require('fs');
 
 
 const User = require("./models/user");
 
-// Login setup
 passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
@@ -24,11 +23,8 @@ passport.use(
       }
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) {
-          // passwords match! log user in
-          console.log("login worked");
           return done(null, user);
         } else {
-          // passwords do not match!
           return done(null, false, { message: "Incorrect password" });
         }
       });
@@ -63,14 +59,6 @@ passport.use(
   })
 );
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
@@ -78,9 +66,20 @@ passport.use(new FacebookStrategy({
   profileFields: ["first_name", "last_name", "picture.type(large)"],
 },
 (accessToken, refreshToken, profile, done) => {
-  User.findOne({facebookId: profile.id}).exec((err, result) => {
-    console.log("result: ", result);
-    if (!result) {
+  User.findOne({facebookId: profile.id}).exec((err, res) => {
+    if (err) {
+      return done(err, false);
+    }
+    if (!res) {
+      console.log("Importing facebook details.");
+      request(profile.photos[0].value)
+        .on('response', response => {
+          console.log("Requested facebook profile picture", response.statusCode)
+        })
+        .on('error', err => {
+          console.error(err)
+        })
+        .pipe(fs.createWriteStream("./public/images/" + profile.id + ".jpg"));
       var user = new User({
         first_name: profile.name.givenName,
         last_name: profile.name.familyName,
@@ -89,7 +88,7 @@ passport.use(new FacebookStrategy({
         status: "user",
         friends: [],
         friend_requests: [],
-        picture: "user-placeholder.svg",
+        picture: profile.id + ".jpg",
         facebookId: profile.id
       });
       user.save( err => {
@@ -99,8 +98,8 @@ passport.use(new FacebookStrategy({
         done(null, user);
       });
     } else {
-      console.log("found the facebook user");
-      var user = result;
+      console.log("Found the facebook user. Logging in now.");
+      var user = res;
       done(null, user);
     }
   });

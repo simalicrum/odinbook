@@ -16,7 +16,7 @@ router.post("/:id", passport.authenticate('jwt', jwtSettings), post_controller.p
 
 router.get("/:id/edit", passport.authenticate('jwt', jwtSettings), user_controller.user_update_get);
 
-router.put("/:id/edit", passport.authenticate('jwt', jwtSettings), user_controller.user_update_post);
+router.post("/:id/edit", passport.authenticate('jwt', jwtSettings), user_controller.user_update_post);
 
 router.delete("/:id/delete", passport.authenticate('jwt', jwtSettings), user_controller.user_delete_get);
 
