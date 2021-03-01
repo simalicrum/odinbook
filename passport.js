@@ -62,7 +62,7 @@ passport.use(
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: "http://localhost:3000/auth/facebook/callback",
+  callbackURL: "https://powerful-taiga-49521.herokuapp.com/auth/facebook/callback",
   profileFields: ["first_name", "last_name", "picture.type(large)"],
 },
 (accessToken, refreshToken, profile, done) => {
