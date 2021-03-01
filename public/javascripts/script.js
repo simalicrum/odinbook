@@ -1,5 +1,5 @@
 const handleLikeClick = async (postLikeId) => {
-  const url = "http://localhost:3000/posts/" + postLikeId + "/like";
+  const url = "https://powerful-taiga-49521.herokuapp.com/posts/" + postLikeId + "/like";
   const settings = {
     method: 'POST',
     headers: {
@@ -17,7 +17,7 @@ const handleLikeClick = async (postLikeId) => {
 }
 
 const handleCommentLikeClick = async (postId, commentLikeId) => {
-  const url = "https://powerful-taiga-49521.herokuapp.com/posts" + postId + "/comments/" + commentLikeId + "/like";
+  const url = "https://powerful-taiga-49521.herokuapp.com/posts/" + postId + "/comments/" + commentLikeId + "/like";
   const settings = {
     method: 'POST',
     headers: {
