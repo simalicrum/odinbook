@@ -175,6 +175,7 @@ exports.user_detail_get = (req, res, next) => {
           content: htmlentities.decode(f.content),
           post: f.post,
           likes: f.likes,
+          _id: f._id
         }});
         return {
         author: e.author,
@@ -183,6 +184,7 @@ exports.user_detail_get = (req, res, next) => {
         likes: e.likes,
         comments: comments,
         target: e.target,
+        _id: e._id
       }})
       res.render("user_detail", { user_info: results.user_info, post_list: post_list_decode, user: req.user});
     }

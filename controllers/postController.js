@@ -53,6 +53,7 @@ exports.post_list = (req, res, next) => {
           content: htmlentities.decode(f.content),
           post: f.post,
           likes: f.likes,
+          _id: f._id
         }});
         return {
         author: e.author,
@@ -61,6 +62,7 @@ exports.post_list = (req, res, next) => {
         likes: e.likes,
         comments: comments,
         target: e.target,
+        id: e._id
       }})
       res.render("post_list", { post_list: post_list_decode, user: req.user});
     });
