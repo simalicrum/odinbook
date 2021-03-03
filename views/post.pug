@@ -38,7 +38,7 @@ mixin post(postarg, postlist)
 
     div.space-y-3.px-8
       if postarg.comments.length > 0
-        ul
+        ul.space-y-4
           if postarg.comments
             each comment in postarg.comments
               li.space-y-2
