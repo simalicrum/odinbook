@@ -2,7 +2,7 @@ mixin user(userarg)
   div.flex.justify-between.p-4
     div.flex.items-center
       a(href="/users/" + userarg._id)
-        div(style="background-image: url('/images/profile/" + userarg.picture + "');").h-20.w-20.bg-yellow-400.rounded.bg-cover
+        img(src="data:/image/" + user.image.contentType + ";base64," + userarg.image.data.toString("base64")).h-20.w-20.bg-yellow-400.rounded.bg-cover
       div.ml-4
         a(href="/users/" + userarg._id).text-md.text-gray-800.font-semibold #{userarg.first_name} #{userarg.last_name}
     if !user.friends.includes(userarg._id) || !user.friend_requests.includes(userarg._id)
