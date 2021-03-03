@@ -8,6 +8,7 @@ const bcrypt = require("bcryptjs");
 const FacebookStrategy = require('passport-facebook').Strategy;
 const request = require('request');
 const fs = require('fs');
+var path = require('path');
 
 
 const User = require("./models/user");
@@ -62,12 +63,15 @@ passport.use(
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: "https://powerful-taiga-49521.herokuapp.com/auth/facebook/callback",
+//  callbackURL: "https://powerful-taiga-49521.herokuapp.com/auth/facebook/callback",
+  callbackURL: "http://localhost:3000/auth/facebook/callback",
   profileFields: ["first_name", "last_name", "picture.type(large)"],
 },
 (accessToken, refreshToken, profile, done) => {
+  
   User.findOne({facebookId: profile.id}).exec((err, res) => {
     if (err) {
+      console.log("facebook login threw an error");
       return done(err, false);
     }
     if (!res) {
@@ -80,7 +84,9 @@ passport.use(new FacebookStrategy({
           console.error(err)
         })
         .pipe(fs.createWriteStream("./public/images/profile/" + profile.id + ".jpg"));
-      var user = new User({
+        const profilePic = fs.readFileSync("./public/images/profile/" + profile.id + ".jpg");
+        console.log("profilePic: ", profilePic);
+        var user = new User({
         first_name: profile.name.givenName,
         last_name: profile.name.familyName,
         username: "",
@@ -90,7 +96,7 @@ passport.use(new FacebookStrategy({
         friend_requests: [],
         picture: profile.id + ".jpg",
         image: {
-          data: fs.readFileSync(path.join(__dirname + '/../public/images/profile/' + profile.id + ".jpg")),
+          data: profilePic,
           contentType: 'image/png'
         },
         facebookId: profile.id
