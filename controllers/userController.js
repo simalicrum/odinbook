@@ -99,7 +99,7 @@ exports.user_signup_post = [
       if (!req.file) {
         var picture = "user-placeholder.svg";
       } else {
-        var picture = req.file.filename;
+        var picture = "profile/" + req.file.filename;
       }
       const user = new User({
         first_name: req.body.firstname,
@@ -111,7 +111,7 @@ exports.user_signup_post = [
         friend_requests: [],
         picture: picture,
         image: {
-          data: fs.readFileSync(path.join(__dirname + '/../public/images/profile/' + req.file.filename)),
+          data: fs.readFileSync(path.join(__dirname + '/../public/images/' + picture)),
           contentType: 'image/png'
         },
         location: req.body.location,
