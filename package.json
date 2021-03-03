@@ -21,6 +21,7 @@
     "express": "~4.16.1",
     "express-validator": "^6.9.2",
     "helmet": "^4.4.1",
+    "html-entities": "^2.1.0",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "luxon": "^1.25.0",

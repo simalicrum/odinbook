@@ -10,6 +10,7 @@ const Post = require("../models/post")
 const { deleteOne } = require("../models/user");
 var fs = require('fs');
 var path = require('path');
+var htmlentities = require('html-entities');
 
 exports.user_login_get = (req, res, next) => {
   res.render("login_form", { title: "Login" });
@@ -166,7 +167,24 @@ exports.user_detail_get = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      res.render("user_detail", { user_info: results.user_info, post_list: results.post_list, user: req.user});
+      const post_list_decode = results.post_list.map(e => { 
+        const comments = e.comments.map(f => { 
+          return {
+          author: f.author,
+          timestamp: f.timestamp,
+          content: htmlentities.decode(f.content),
+          post: f.post,
+          likes: f.likes,
+        }});
+        return {
+        author: e.author,
+        timestamp: e.timestamp,
+        content: htmlentities.decode(e.content),
+        likes: e.likes,
+        comments: comments,
+        target: e.target,
+      }})
+      res.render("user_detail", { user_info: results.user_info, post_list: post_list_decode, user: req.user});
     }
   )
 };
