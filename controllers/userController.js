@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const Post = require("../models/post")
 const { deleteOne } = require("../models/user");
+var fs = require('fs');
+var path = require('path');
 
 exports.user_login_get = (req, res, next) => {
   res.render("login_form", { title: "Login" });
@@ -108,6 +110,10 @@ exports.user_signup_post = [
         friends: [],
         friend_requests: [],
         picture: picture,
+        image: {
+          data: fs.readFileSync(path.join(__dirname + '/../public/images/profile/' + req.file.filename)),
+          contentType: 'image/png'
+        },
         location: req.body.location,
         birthday: req.body.dob,
         facebookId: req.body.facebookId

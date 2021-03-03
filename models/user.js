@@ -12,6 +12,10 @@ var UserSchema = new Schema({
   friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   friend_requests: [{ type: Schema.Types.ObjectId, ref: "User" }],
   picture: {type: String},
+  image: {
+    data: Buffer,
+    contentType: String,
+  },
   location: {type: String},
   birthday: {type: Date},
   facebookId: {type: String},
