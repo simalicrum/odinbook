@@ -62,7 +62,7 @@ exports.post_list = (req, res, next) => {
         likes: e.likes,
         comments: comments,
         target: e.target,
-        id: e._id
+        _id: e._id
       }})
       res.render("post_list", { post_list: post_list_decode, user: req.user});
     });
