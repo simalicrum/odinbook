@@ -89,6 +89,10 @@ passport.use(new FacebookStrategy({
         friends: [],
         friend_requests: [],
         picture: profile.id + ".jpg",
+        image: {
+          data: fs.readFileSync(path.join(__dirname + '/../public/images/profile' + profile.id + ".jpg")),
+          contentType: 'image/png'
+        },
         facebookId: profile.id
       });
       user.save( err => {
