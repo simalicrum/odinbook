@@ -63,8 +63,8 @@ passport.use(
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: "https://powerful-taiga-49521.herokuapp.com/auth/facebook/callback",
-//  callbackURL: "http://localhost:3000/auth/facebook/callback",
+//  callbackURL: "https://powerful-taiga-49521.herokuapp.com/auth/facebook/callback",
+  callbackURL: "http://localhost:3000/auth/facebook/callback",
   profileFields: ["first_name", "last_name", "picture.type(large)"],
 },
 (accessToken, refreshToken, profile, done) => {
@@ -75,37 +75,36 @@ passport.use(new FacebookStrategy({
     }
     if (!res) {
       console.log("Importing facebook details.");
-      request(profile.photos[0].value)
-        .on('response', response => {
-          console.log("Requested facebook profile picture", response.statusCode)
-        })
-        .on('error', err => {
-          console.error(err)
-        })
-        .pipe(fs.createWriteStream("./public/images/profile/" + profile.id + ".jpg"));
-        const profilePic = fs.readFileSync("./public/images/profile/" + profile.id + ".jpg");
-        console.log("profilePic: ", profilePic);
+      var requestSettings = {
+        method: 'GET',
+        url: profile.photos[0].value,
+        encoding: null,
+      }
+      request(requestSettings, (error, response, body) => {
+        console.log("response: ", response);
         var user = new User({
-        first_name: profile.name.givenName,
-        last_name: profile.name.familyName,
-        username: "",
-        password: "",
-        status: "user",
-        friends: [],
-        friend_requests: [],
-        picture: profile.id + ".jpg",
-        image: {
-          data: profilePic,
-          contentType: 'image/png'
-        },
-        facebookId: profile.id
-      });
-      user.save( err => {
-        if (err) {
-          return next(err);
-        }
-        done(null, user);
-      });
+          first_name: profile.name.givenName,
+          last_name: profile.name.familyName,
+          username: "",
+          password: "",
+          status: "user",
+          friends: [],
+          friend_requests: [],
+          picture: profile.id + ".jpg",
+          image: {
+            data: body,
+            contentType: 'image/png'
+          },
+          facebookId: profile.id
+        });
+        console.log("user: ", user);
+        user.save( err => {
+          if (err) {
+            return next(err);
+          }
+          done(null, user);
+        });
+      })
     } else {
       console.log("Found the facebook user. Logging in now.");
       var user = res;
