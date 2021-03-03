@@ -42,7 +42,6 @@ exports.user_login_post = (req, res, next) => {
 
 exports.facebook_login = (req, res, next) => {
   passport.authenticate("facebook", {session: false}, (err, user, info) => {
-    console.log("facebook login started");
     if (err) return next(err);
     const payload = {
       username: user.username,
