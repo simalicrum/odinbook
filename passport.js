@@ -93,7 +93,7 @@ passport.use(new FacebookStrategy({
           picture: profile.id + ".jpg",
           image: {
             data: body,
-            contentType: 'image/png'
+            contentType: response.headers[content-type]
           },
           facebookId: profile.id
         });

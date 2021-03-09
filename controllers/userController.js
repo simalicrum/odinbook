@@ -99,8 +99,10 @@ exports.user_signup_post = [
       }
       if (!req.file) {
         var picture = "user-placeholder.svg";
+        var mimeType = "image/svg+xml"
       } else {
         var picture = "profile/" + req.file.filename;
+        var mimeType = req.file.mimetype;
       }
       const user = new User({
         first_name: req.body.firstname,
@@ -113,7 +115,7 @@ exports.user_signup_post = [
         picture: picture,
         image: {
           data: fs.readFileSync(path.join(__dirname + '/../public/images/' + picture)),
-          contentType: 'image/png'
+          contentType: mimeType
         },
         location: req.body.location,
         birthday: req.body.dob,
